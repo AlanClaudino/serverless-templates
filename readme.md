@@ -1,4 +1,5 @@
 # Twilio Serverless Templates
+Implementação de templates de funcões serverless da Twilio com o objetivo de padronizar e facilitar o desenvolvimento de novas funções quando necessário.
 
 ## 🔐 Validação de Token
 
