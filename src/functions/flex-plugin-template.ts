@@ -46,7 +46,6 @@ export const handler: ServerlessFunctionSignature = async function (
       authorization: event.request.headers['authorization']
     })    
   } catch (error: unknown){
-    console.log("CATCH");
     const response = createErrorResponse({error: error, message: 'Invalid token.', code: 401})
     return callback(null, response)
   }
@@ -60,9 +59,7 @@ export const handler: ServerlessFunctionSignature = async function (
   }
 
   const validatedData = validateSchema(dataSchema, event)
-  console.log('validatedData', validatedData);
   
-
   if(!validatedData.isValid) {
     const response = createErrorResponse({error: validatedData.errors, message: 'Invalid data.', code: 400})
     return callback(null, response)

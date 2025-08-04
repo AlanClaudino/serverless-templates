@@ -51,7 +51,7 @@ type ValidateApiKeyInput = {
   secretKey?: string
 }
 
-export const validateApiKey = async ({requestKey, secretKey}: ValidateApiKeyInput ) => {
+export const validateApiKey = ({requestKey, secretKey}: ValidateApiKeyInput ) => {
   if(!requestKey) {
     throw new Error('Unauthorized')
   }

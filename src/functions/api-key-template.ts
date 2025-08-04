@@ -39,12 +39,11 @@ export const handler: ServerlessFunctionSignature = async function (
 ) {
 
   try {
-    await validateApiKey({
+    validateApiKey({
       secretKey: context.API_KEY,
       requestKey: event.request.headers['x-api-key']
     })    
   } catch (error: unknown){
-    console.log("CATCH");
     const response = createErrorResponse({error: error, message: 'Unauthorized.', code: 401})
     return callback(null, response)
   }
@@ -53,13 +52,11 @@ export const handler: ServerlessFunctionSignature = async function (
   const dataSchema = {
     teste: {
       required: true,
-      type: 'string'
+      type: 'number'
     }
   }
 
-  const validatedData = validateSchema(dataSchema, event)
-  console.log('validatedData', validatedData);
-  
+  const validatedData = validateSchema(dataSchema, event)  
 
   if(!validatedData.isValid) {
     const response = createErrorResponse({error: validatedData.errors, message: 'Invalid data.', code: 400})
