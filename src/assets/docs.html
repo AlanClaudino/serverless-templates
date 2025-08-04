@@ -12,6 +12,11 @@
     <h1>Twilio Serverless Templates</h1>
 
     <div class="section">
+      <h2>💡 Visão Geral</h2>
+      <p>Conjunto de templates para funções serverless da Twilio, com o objetivo de padronizar e agilizar o desenvolvimento de novos serviços de forma consistente e reutilizável.</p>
+    </div>
+
+    <div class="section">
       <h2>🔐 Validação de Token</h2>
       <p>Verifica se um token JWT fornecido no cabeçalho <code>Authorization</code> é válido, utilizando o validador da
         Twilio.</p>
@@ -29,7 +34,8 @@
       <p>Compara a chave fornecida pelo cliente com uma chave armazenada no ambiente.</p>
       <pre><code>validateApiKey({ requestKey, secretKey })</code></pre>
       <ul>
-        <li><strong>requestKey</strong>: chave fornecida pelo cliente, normalmente no cabeçalho <code>X-API-KEY</code></li>
+        <li><strong>requestKey</strong>: chave fornecida pelo cliente, normalmente no cabeçalho <code>X-API-KEY</code>
+        </li>
         <li><strong>secretKey</strong>: chave secreta configurada no ambiente</li>
       </ul>
       <p><strong>Retorna um erro</strong> se a chave estiver ausente ou não for correspondente.</p>
@@ -59,15 +65,48 @@
       <p>Funções auxiliares para padronizar as respostas da função.</p>
 
       <h4><code>createResponse()</code></h4>
-      <p>Cria uma nova instância de <code>Twilio.Response</code> com cabeçalhos <strong>CORS</strong> e <code>Content-Type</code>
+      <p>Cria uma nova instância de <code>Twilio.Response</code> com cabeçalhos <strong>CORS</strong> e
+        <code>Content-Type</code>
         definidos.</p>
 
       <h4><code>createErrorResponse({ error, message, code })</code></h4>
-      <p>Cria uma nova instância de <code>Twilio.Response</code> contendo um objeto de erro, uma mensagem e <i>status code</i> opcional.</p>
+      <p>Cria uma nova instância de <code>Twilio.Response</code> contendo um objeto de erro, uma mensagem e <i>status
+          code</i> opcional.</p>
       <ul>
         <li><strong>error</strong>: objeto de erro ou detalhes</li>
         <li><strong>message</strong>: mensagem amigável de erro</li>
         <li><strong>code</strong>: status HTTP (padrão: 500)</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>📚 Documentação Relevante</h2>
+      <ul>
+        <li>
+          <a href="https://www.twilio.com/docs/serverless/functions-assets/functions" target="_blank">
+            📘 Conceitos gerais de Funções Serverless (Twilio)
+          </a>
+        </li>
+        <li>
+          <a href="https://www.twilio.com/docs/labs/serverless-toolkit" target="_blank">
+            🧪 Twilio Serverless Toolkit (CLI)
+          </a>
+        </li>
+        <li>
+          <a href="https://www.twilio.com/docs/labs/serverless-toolkit/guides/typescript" target="_blank">
+            ⚙️ Uso com TypeScript
+          </a>
+        </li>
+        <li>
+          <a href="https://www.twilio.com/docs/labs/serverless-toolkit/configuration#scoped-configurations"
+            target="_blank">
+            📂 Configuração de múltiplos arquivos .env
+          </a>
+        </li>
+        <li>
+          <a href="https://www.npmjs.com/package/twilio-flex-token-validator" target="_blank">
+            🔐 Validador de Token do Flex (npm)
+          </a>
+        </li>
       </ul>
     </div>
 

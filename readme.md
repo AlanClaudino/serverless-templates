@@ -1,5 +1,6 @@
 # Twilio Serverless Templates
-Implementação de templates de funções serverless da Twilio com o objetivo de padronizar e facilitar o desenvolvimento de novas funções quando necessário.
+## 💡 Visão Geral
+Conjunto de templates para funções serverless da Twilio, com o objetivo de padronizar e agilizar o desenvolvimento de novos serviços de forma consistente e reutilizável.
 
 ## 🔐 Validação de Token
 
@@ -79,7 +80,15 @@ Cria uma nova instância de `Twilio.Response` contendo um objeto de erro, uma me
 * **error**: objeto de erro ou detalhes
 * **message**: mensagem amigável de erro
 * **code**: status HTTP (padrão: 500)
+---
+
+## 📚 Documentação Relevante
+
+* [📘 Conceitos gerais de Functions e Assets (Twilio)](https://www.twilio.com/docs/serverless/functions-assets/functions)
+* [🧪 Twilio Serverless Toolkit (CLI)](https://www.twilio.com/docs/labs/serverless-toolkit)
+* [⚙️ Uso com TypeScript](https://www.twilio.com/docs/labs/serverless-toolkit/guides/typescript)
+* [📂 Configuração de múltiplos arquivos `.env`](https://www.twilio.com/docs/labs/serverless-toolkit/configuration#scoped-configurations)
+* [🔐 Validador de Token do Flex (npm)](https://www.npmjs.com/package/twilio-flex-token-validator)
 
 ---
 > Gerado com ChatGPT • Documentação das Funções Twilio Serverless
-```

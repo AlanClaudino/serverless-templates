@@ -71,3 +71,19 @@ footer {
   color: #a0aec0;
   margin-top: 3rem;
 }
+
+a {
+  color: #0366d6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+a:hover {
+  color: #023e8a;
+  text-decoration: underline;
+}
+
+.section ul li {
+  margin-bottom: 0.5rem;
+}
