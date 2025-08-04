@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Twilio Serverless Templates</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Twilio Serverless Templates</h1>
+
+    <div class="section">
+      <h2>🔐 Validação de Token</h2>
+      <p>Verifica se um token JWT fornecido no cabeçalho <code>Authorization</code> é válido, utilizando o validador da
+        Twilio.</p>
+      <pre><code>await validateToken({ authorization, accountSid, accountToken })</code></pre>
+      <ul>
+        <li><strong>authorization</strong>: string contendo o token JWT</li>
+        <li><strong>accountSid</strong>: SID da conta Twilio</li>
+        <li><strong>accountToken</strong>: token da conta Twilio</li>
+      </ul>
+      <p><strong>Retorna um erro</strong> se o token estiver ausente ou inválido.</p>
+    </div>
+
+    <div class="section">
+      <h2>🔑 Validação de Chave de API</h2>
+      <p>Compara a chave fornecida pelo cliente com uma chave armazenada no ambiente.</p>
+      <pre><code>validateApiKey({ requestKey, secretKey })</code></pre>
+      <ul>
+        <li><strong>requestKey</strong>: chave fornecida pelo cliente, normalmente no cabeçalho <code>X-API-KEY</code></li>
+        <li><strong>secretKey</strong>: chave secreta configurada no ambiente</li>
+      </ul>
+      <p><strong>Retorna um erro</strong> se a chave estiver ausente ou não for correspondente.</p>
+    </div>
+
+    <div class="section">
+      <h2>📋 Validação de Esquema</h2>
+      <p>Verifica se os dados recebidos no <code>event</code> seguem um esquema definido de tipos e obrigatoriedades.
+      </p>
+      <pre><code>const result = validateSchema(schema, event)</code></pre>
+      <p>Exemplo de esquema:</p>
+      <pre><code>{
+  nome: { type: 'string', required: true },
+  idade: { type: 'number', required: false },
+  ativo: { type: 'boolean', required: true }
+}</code></pre>
+      <p>Retorna um objeto com:</p>
+      <ul>
+        <li><strong>isValid</strong>: <code>true</code> se todos os campos estiverem corretos</li>
+        <li><strong>data</strong>: dados filtrados e convertidos</li>
+        <li><strong>errors</strong>: array de mensagens de erro, caso existam</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>✅ Criadores de Respostas</h2>
+      <p>Funções auxiliares para padronizar as respostas da função.</p>
+
+      <h4><code>createResponse()</code></h4>
+      <p>Cria uma nova instância de <code>Twilio.Response</code> com cabeçalhos <strong>CORS</strong> e <code>Content-Type</code>
+        definidos.</p>
+
+      <h4><code>createErrorResponse({ error, message, code })</code></h4>
+      <p>Cria uma nova instância de <code>Twilio.Response</code> contendo um objeto de erro, uma mensagem e <i>status code</i> opcional.</p>
+      <ul>
+        <li><strong>error</strong>: objeto de erro ou detalhes</li>
+        <li><strong>message</strong>: mensagem amigável de erro</li>
+        <li><strong>code</strong>: status HTTP (padrão: 500)</li>
+      </ul>
+    </div>
+
+    <footer>
+      Gerado com ChatGPT • Documentação das Funções Twilio Serverless
+    </footer>
+  </div>
+</body>
+
+
+</html>
