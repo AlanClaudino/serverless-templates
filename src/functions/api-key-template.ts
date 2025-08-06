@@ -50,10 +50,12 @@ export const handler: ServerlessFunctionSignature = async function (
 
   // define data schema
   const dataSchema = {
-    teste: {
-      required: true,
-      type: 'number'
-    }
+    teste: [
+      {
+        type: 'number',
+        required: true
+      }
+    ]
   }
 
   const validatedData = validateSchema(dataSchema, event)  

@@ -1,4 +1,4 @@
-// Utils
+
 import { validator } from 'twilio-flex-token-validator';
 
 export const createResponse = () => {
@@ -65,35 +65,178 @@ export const validateApiKey = ({requestKey, secretKey}: ValidateApiKeyInput ) =>
   }
 }
 
-type FieldSchema = {
+type SchemaField = {
   type: 'string' | 'number' | 'boolean'
   required: boolean
 }
 
 type Schema = {
-  [key: string]: FieldSchema
+  [key: string]: SchemaField | SchemaField[] | Schema | Schema[]
 }
 
-export const validateSchema = (schema: Schema, input: any) => {
+type ValidateSchemaResult = {
+  isValid: boolean,
+  data: any,
+  errors: string[]
+}
+
+export const validateSchema = (schema: Schema | SchemaField[], input: any): ValidateSchemaResult => {
+  
   const errors: string[] = []
-  const data: Record<string, any> = {} 
+  let data: Record<string, any> | any[] = Array.isArray(schema) ? [] : {}
 
-  for(const key in schema) {
-    const fieldSchema = schema[key]
-    const value = input[key]
-    const hasValue = (value !== undefined) && (value !== null)
+  const isSchemaField = (field: any): field is SchemaField => field && typeof field === 'object' && ('type' in field) && ('required' in field)
 
-    if(fieldSchema.required && !hasValue) {
-      errors.push(`${key} is required`)
-      continue
+  if(Array.isArray(schema)) {
+
+    if(!Array.isArray(input)) {
+
+      errors.push('Input values must be an array')
+
+    } else {
+      
+      const arraySchema = schema[0]
+    
+      if (isSchemaField(arraySchema)){                  
+        
+        const arrayData = []
+        if(arraySchema.required && input.length === 0) {
+          errors.push('Array must not be empty')
+        }
+        
+        for(const item of input) { 
+
+          const itemhasValue = (item !== undefined) && (item !== null)         
+
+          if(arraySchema.required && !itemhasValue) {                          
+            errors.push(`Array value is required`)
+            continue
+          }
+
+          if(itemhasValue && typeof item !== arraySchema.type) {    
+            errors.push(`Array value must be a ${arraySchema.type}`)
+            continue
+          }
+
+          if(itemhasValue) {                                        
+            arrayData.push(item)                                    
+          }
+        }
+
+        data = arrayData
+      
+      } else {
+
+        const arrayData = []
+        for(const item of input) {                                
+          const { 
+            isValid: recursiveIsValid, 
+            data: recursiveData, 
+            errors: recursiveErrors 
+          } = validateSchema(arraySchema as Schema, item);       
+
+          errors.push(...recursiveErrors)
+          arrayData.push(recursiveData)
+        }
+
+        data = arrayData
+      }
     }
+  } else {
 
-    if(hasValue && typeof value !== fieldSchema.type) {
-      errors.push(`${key} must be a ${fieldSchema.type}`)
-    }
+    data = {}                        
+  
+    for(const key in schema) {
+      const fieldSchema = schema[key]
+      const isFieldSchemaArray = Array.isArray(fieldSchema)
+      
+      const value = input[key]       
+      const isValueArray = Array.isArray(value)                                   
+      const hasValue = (value !== undefined) && (value !== null)
+      
+      if(isFieldSchemaArray && !isValueArray) {                                   
+        errors.push(`${key} must be an array`)
+        continue
+      }
 
-    if(hasValue) {
-      data[key] = value
+      if(isFieldSchemaArray) {
+
+        const arraySchema = fieldSchema[0]
+
+        if (isSchemaField(arraySchema)){
+
+          const arrayData = []
+          if(arraySchema.required && value.length === 0) {
+            errors.push('Array must not be empty')
+          }
+
+          for(const item of value) {
+            
+            const itemhasValue = (item !== undefined) && (item !== null)         
+
+            if(arraySchema.required && !itemhasValue) {                          
+              errors.push(`${key} is required`)
+              continue
+            }
+
+            if(itemhasValue && typeof item !== arraySchema.type) {    
+              errors.push(`${key} must be a ${arraySchema.type}`)
+              continue
+            }
+
+            if(itemhasValue) {                                        
+              arrayData.push(item)                                    
+            }
+          }
+
+          data[key] = arrayData                                      
+
+        } else {
+
+          const arrayData = []
+          for(const item of value) {                                
+            const { 
+              isValid: recursiveIsValid, 
+              data: recursiveData, 
+              errors: recursiveErrors 
+            } = validateSchema(arraySchema as Schema, item);        
+
+            errors.push(...recursiveErrors)
+            arrayData.push(recursiveData)
+          }
+          
+          data[key] = arrayData
+          continue
+        }
+        
+      } else if (!isSchemaField(fieldSchema)) {
+
+        const { 
+          isValid: recursiveIsValid, 
+          data: recursiveData, 
+          errors: recursiveErrors 
+        } = validateSchema(fieldSchema as Schema, value);
+
+        data[key] = recursiveData
+        errors.push(...recursiveErrors)
+        continue
+
+      } else {
+
+        if(fieldSchema.required && !hasValue) {
+          errors.push(`${key} is required`)
+          continue
+        }
+
+        if(hasValue && typeof value !== fieldSchema.type) {
+          errors.push(`${key} must be a ${fieldSchema.type}`)
+          continue
+        }
+
+        if(hasValue) {
+          data[key] = value
+        }
+      }
     }
   }
 

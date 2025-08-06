@@ -13,7 +13,8 @@
 
     <div class="section">
       <h2>💡 Visão Geral</h2>
-      <p>Conjunto de templates para funções serverless da Twilio, com o objetivo de padronizar e agilizar o desenvolvimento de novos serviços de forma consistente e reutilizável.</p>
+      <p>Conjunto de templates para funções serverless da Twilio, com o objetivo de padronizar e agilizar o
+        desenvolvimento de novos serviços de forma consistente e reutilizável.</p>
     </div>
 
     <div class="section">
@@ -48,9 +49,14 @@
       <pre><code>const result = validateSchema(schema, event)</code></pre>
       <p>Exemplo de esquema:</p>
       <pre><code>{
-  nome: { type: 'string', required: true },
-  idade: { type: 'number', required: false },
-  ativo: { type: 'boolean', required: true }
+  const schema = {
+    name: { type: 'string', required: true },
+    emails: [{ type: 'string', required: true }],
+    address: {
+      street: { type: 'string', required: true },
+      number: { type: 'number', required: false }
+    }
+  }
 }</code></pre>
       <p>Retorna um objeto com:</p>
       <ul>
@@ -67,7 +73,8 @@
       <h4><code>createResponse()</code></h4>
       <p>Cria uma nova instância de <code>Twilio.Response</code> com cabeçalhos <strong>CORS</strong> e
         <code>Content-Type</code>
-        definidos.</p>
+        definidos.
+      </p>
 
       <h4><code>createErrorResponse({ error, message, code })</code></h4>
       <p>Cria uma nova instância de <code>Twilio.Response</code> contendo um objeto de erro, uma mensagem e <i>status

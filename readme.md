@@ -49,9 +49,12 @@ const result = validateSchema(schema, event)
 
 ```ts
 {
-  nome: { type: 'string', required: true },
-  idade: { type: 'number', required: false },
-  ativo: { type: 'boolean', required: true }
+  name: { type: 'string', required: true },
+  emails: [{ type: 'string', required: true }],
+  address: {
+    street: { type: 'string', required: true },
+    number: { type: 'number', required: false }
+  }
 }
 ```
 
